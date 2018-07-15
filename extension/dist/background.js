@@ -2652,7 +2652,7 @@ function handleMessages(request, sender, sendResponse) {
     name: '_jwt'
   }, function (jwt) {
     var axiosInstance = __WEBPACK_IMPORTED_MODULE_0_axios___default.a.create({
-      baseURL: 'https://localhost:8000/api/v1/',
+      baseURL: 'https://still-ravine-15129.herokuapp.com/api/v1/',
       headers: { Authorization: jwt.value }
     });
     __WEBPACK_IMPORTED_MODULE_1__requests__[request.func](request.data, axiosInstance, sendResponse);
