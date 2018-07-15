@@ -21965,8 +21965,8 @@ function init() {
     appendCritiqueAddons();
     appendGeneralCommentAddon();
     $('div#loading-modal').remove();
-  }).catch(function () {
-    alert('Sorry, something went wrong while loading urPlus. ' + // eslint-disable-line
+  }).catch(function (err) {
+    alert(err + 'Sorry, something went wrong while loading urPlus. ' + // eslint-disable-line
     'If you think this is an error with urPlus, ' + 'please submit a bug report.');
     $('div#loading-modal').remove();
   });

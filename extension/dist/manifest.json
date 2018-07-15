@@ -30,6 +30,7 @@
     "storage",
     "tabs",
     "https://review.udacity.com/",
-    "https://localhost:8000/"
+    "https://localhost:8000/",
+    "https://still-ravine-15129.herokuapp.com/"
   ]
 }

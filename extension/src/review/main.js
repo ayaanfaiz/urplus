@@ -74,6 +74,7 @@ function init() {
   appendLoadingModal();
   store.dispatch('init', { submissionId })
     .then(() => {
+      alert(store.state.price)
       $(`<span>$${store.state.price}</span>`).insertAfter('h1.h-slim');
       appendCommentDatalist();
       appendPassAllCritiques();
