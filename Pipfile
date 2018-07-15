@@ -16,11 +16,12 @@ requests = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
 django-extensions = "*"
+werkzeug = "*"
+pyopenssl = "*"
 
 
 [dev-packages]
 
 pylint = "*"
 pylint-django = "*"
-werkzeug = "*"
-pyopenssl = "*"
+
