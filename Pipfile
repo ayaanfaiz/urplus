@@ -15,12 +15,12 @@ whitenoise = "*"
 requests = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
+django-extensions = "*"
 
 
 [dev-packages]
 
 pylint = "*"
 pylint-django = "*"
-django-extensions = "*"
 werkzeug = "*"
 pyopenssl = "*"
