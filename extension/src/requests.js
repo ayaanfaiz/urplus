@@ -66,11 +66,17 @@ export function getIncome(axiosInstance) {
   const now = new Date();
   const todayStart = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
   const monthStart = new Date(now.getUTCFullYear(), now.getUTCMonth(), 1);
-  axiosInstance({
-    method: 'get',
-    baseURL: 'https://review-api.udacity.com/api/v1',
-    url: `/me/submissions/completed.json?start_date=${monthStart.toISOString().slice(0, 10)}`,
-  })
+  chrome.cookies.get({
+    url: 'https://review.udacity.com',
+    name: '_jwt',
+  }, (jwt) => {
+    axiosInstance({
+      method: 'get',
+      baseURL: 'https://review-api.udacity.com/api/v1',
+      url: `/me/submissions/completed.json?start_date=${monthStart.toISOString().slice(0, 10)}`,
+      headers: { Authorization: `Bearer ${jwt.value}` },
+    })
+    .then(res => res.json())
     .then((response) => {
       let dailyUSDIncome = 0;
       let monthlyUSDIncome = 0;
@@ -83,6 +89,7 @@ export function getIncome(axiosInstance) {
       chrome.storage.local.set({ dailyUSDIncome: (dailyUSDIncome).toFixed(2) });
       chrome.storage.local.set({ monthlyUSDIncome: (monthlyUSDIncome).toFixed(2) });
     });
+  });
 }
 
 export function getActiveReview(axiosInstance) {

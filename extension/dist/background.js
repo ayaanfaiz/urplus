@@ -1744,21 +1744,29 @@ function getIncome(axiosInstance) {
   var now = new Date();
   var todayStart = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
   var monthStart = new Date(now.getUTCFullYear(), now.getUTCMonth(), 1);
-  axiosInstance({
-    method: 'get',
-    baseURL: 'https://review-api.udacity.com/api/v1',
-    url: '/me/submissions/completed.json?start_date=' + monthStart.toISOString().slice(0, 10)
-  }).then(function (response) {
-    var dailyUSDIncome = 0;
-    var monthlyUSDIncome = 0;
-    response.data.forEach(function (review) {
-      monthlyUSDIncome += parseFloat(review.price);
-      if (review.completed_at >= todayStart.toISOString()) {
-        dailyUSDIncome += parseFloat(review.price);
-      }
+  chrome.cookies.get({
+    url: 'https://review.udacity.com',
+    name: '_jwt'
+  }, function (jwt) {
+    axiosInstance({
+      method: 'get',
+      baseURL: 'https://review-api.udacity.com/api/v1',
+      url: '/me/submissions/completed.json?start_date=' + monthStart.toISOString().slice(0, 10),
+      headers: { Authorization: 'Bearer ' + jwt.value }
+    }).then(function (res) {
+      return res.json();
+    }).then(function (response) {
+      var dailyUSDIncome = 0;
+      var monthlyUSDIncome = 0;
+      response.data.forEach(function (review) {
+        monthlyUSDIncome += parseFloat(review.price);
+        if (review.completed_at >= todayStart.toISOString()) {
+          dailyUSDIncome += parseFloat(review.price);
+        }
+      });
+      chrome.storage.local.set({ dailyUSDIncome: dailyUSDIncome.toFixed(2) });
+      chrome.storage.local.set({ monthlyUSDIncome: monthlyUSDIncome.toFixed(2) });
     });
-    chrome.storage.local.set({ dailyUSDIncome: dailyUSDIncome.toFixed(2) });
-    chrome.storage.local.set({ monthlyUSDIncome: monthlyUSDIncome.toFixed(2) });
   });
 }
 
@@ -2652,8 +2660,8 @@ function handleMessages(request, sender, sendResponse) {
     name: '_jwt'
   }, function (jwt) {
     var axiosInstance = __WEBPACK_IMPORTED_MODULE_0_axios___default.a.create({
-      baseURL: 'https://still-ravine-15129.herokuapp.com/api/v1/',
-      headers: { Authorization: jwt.value }
+      baseURL: 'https://urplus.herokuapp.com/api/v1/',
+      headers: { Authorization: 'Bearer ' + jwt.value }
     });
     __WEBPACK_IMPORTED_MODULE_1__requests__[request.func](request.data, axiosInstance, sendResponse);
   });

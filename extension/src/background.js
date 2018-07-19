@@ -7,8 +7,8 @@ function handleMessages(request, sender, sendResponse) {
     name: '_jwt',
   }, (jwt) => {
     const axiosInstance = axios.create({
-      baseURL: 'https://still-ravine-15129.herokuapp.com/api/v1/',
-      headers: { Authorization: jwt.value },
+      baseURL: 'https://urplus.herokuapp.com/api/v1/',
+      headers: { Authorization: `Bearer ${jwt.value}` },
     });
     requests[request.func](request.data, axiosInstance, sendResponse);
   });
